@@ -1,7 +1,7 @@
 ![Docker Build Status](https://img.shields.io/docker/cloud/build/colinnolan/ubuntu-with-docker)
 ![Docker Pulls](https://img.shields.io/docker/pulls/colinnolan/ubuntu-with-docker)
 
-# Docker Image of Ubuntu with Docker
+# Docker Image: Ubuntu with Docker
 _Docker image with Docker CLI and Python - created as Molecule Ansible testing platform_
 
 ## Building
