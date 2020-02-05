@@ -1,5 +1,5 @@
-![Docker Build Status](https://img.shields.io/docker/build/colinnolan/ubuntu-with-docker.svg)
-![Docker Pulls](https://img.shields.io/docker/pulls/colinnolan/ubuntu-with-docker.svg)
+![Docker Build Status](https://img.shields.io/docker/cloud/build/colinnolan/ubuntu-with-docker)
+![Docker Pulls](https://img.shields.io/docker/pulls/colinnolan/ubuntu-with-docker)
 
 # Docker with Ubuntu
 _Docker image with Docker CLI and Python - created as Molecule Ansible testing platform _
