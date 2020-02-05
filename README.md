@@ -1,8 +1,8 @@
 ![Docker Build Status](https://img.shields.io/docker/cloud/build/colinnolan/ubuntu-with-docker)
 ![Docker Pulls](https://img.shields.io/docker/pulls/colinnolan/ubuntu-with-docker)
 
-# Docker with Ubuntu
-_Docker image with Docker CLI and Python - created as Molecule Ansible testing platform _
+# Docker Image of Ubuntu with Docker
+_Docker image with Docker CLI and Python - created as Molecule Ansible testing platform_
 
 ## Building
 Build the image for the root directory of this repository with:
@@ -24,7 +24,7 @@ docker run -it --rm \
     colinnolan/ubuntu-with-docker
 ```
 
-### In molecule.yml
+### In `molecule.yml`
 ```yaml
 platforms:
   - name: instance
