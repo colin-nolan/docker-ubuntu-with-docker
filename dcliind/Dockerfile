@@ -1,6 +1,5 @@
 ARG BASE_IMAGE=ubuntu:18.04
 
-
 # Download Docker CLI binary
 FROM alpine:3 as docker-download
 
