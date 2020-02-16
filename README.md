@@ -1,7 +1,7 @@
 [![Docker Build Status](https://img.shields.io/docker/cloud/build/colinnolan/ubuntu-with-docker)](https://hub.docker.com/repository/docker/colinnolan/ubuntu-with-docker)
 [![Docker Pulls](https://img.shields.io/docker/pulls/colinnolan/ubuntu-with-docker)](https://hub.docker.com/repository/docker/colinnolan/ubuntu-with-docker)
 
-# Docker Image: Ubuntu with Docker
+# Ubuntu-Based Docker-In-Docker
 _Ubuntu-based versions of [Docker-In-Docker](https://hub.docker.com/_/docker) images_
 
 ## Overview
@@ -10,36 +10,47 @@ There are two ways to use Docker inside of Docker:
    mounted and used.
 2) Docker-In-Docker (dind): where the Docker daemon is installed and ran inside of a Docker image.
 
+Both flavours are provided. The images are generated from the [official Docker images](https://hub.docker.com/_/docker),
+which are based on Alpine. 
+
 ## Usage
-### Docker-CLI-In-Docker
+### Docker-CLI-In-Docker (dcliind)
+#### Run
+```
+docker run -it --rm \
+        -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    colinnolan/ubuntu-with-docker:18.04-19.03
+```
+
 #### Build
 Build the image for the `dcliind` directory of this repository with:
 ```
-docker build -t colinnolan/docker-with-ubuntu:docker .
+./build.sh
 ```
+where the tag of the built image is given on stdout.
 
 The following [build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg)
-are available to easily customise the image:
+are available to customise the image:
   - `BASE_IMAGE`: base image to use (must be debian/ubuntu).
   - `DOCKER_CLI_DOWNLOAD_LOCATION`: location to download the Docker CLI binaries from (expected to be .tgz).
   - `DOCKER_CLI_DOWNLOAD_CHECKSUM`: checksum of downloaded .tgz file.
 
+
+### Docker-In-Docker (dind)
 #### Run
-##### Basic
 ```
 docker run -it --rm \
-        -v /var/run/docker.sock:/var/run/docker.sock:ro \
-    colinnolan/ubuntu-with-docker:docker
+        --privileged \
+    colinnolan/ubuntu-with-docker:18.04-19.03-dind
 ```
 
-##### In `molecule.yml`
-```yaml
-platforms:
-  - name: instance
-    image: colinnolan/ubuntu-with-docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+#### Build
+Build the image for the `dind` directory of this repository with:
 ```
+./build.sh
+```
+where the tag of the built image is given on stdout.
 
-### Docker-In-Docker
-TODO
+The following [build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg)
+are available to customise the image:
+  - `BASE_IMAGE`: base image to use (must be debian/ubuntu based, with the Docker CLI installed).

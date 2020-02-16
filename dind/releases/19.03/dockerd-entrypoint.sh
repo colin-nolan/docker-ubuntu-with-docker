@@ -1,8 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 # DO NOT MODIFY - this file has been generated automatically!
 # The original has been changed using patches that can be found in ../patches
 set -eu
 
+_tls_ensure_private() {
 	local f="$1"; shift
 	[ -s "$f" ] || openssl genrsa -out "$f" 4096
 }

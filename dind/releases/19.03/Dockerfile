@@ -1,6 +1,6 @@
 # DO NOT MODIFY - this file has been generated automatically!
 # The original has been changed using patches that can be found in ../patches
-ARG BASE_IMAGE=colinnolan/ubuntu-with-docker:latest
+ARG BASE_IMAGE=colinnolan/ubuntu-with-docker:18.04-19.03
 
 FROM ${BASE_IMAGE}
 
