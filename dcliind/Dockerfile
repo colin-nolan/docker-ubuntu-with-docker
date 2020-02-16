@@ -22,6 +22,7 @@ RUN curl -L "${DOCKER_CLI_DOWNLOAD_LOCATION}" \
 # Production image
 FROM ${BASE_IMAGE}
 
+# TODO: should we really be adding Python here...
 RUN apt-get update && apt-get install --no-install-recommends -y \
          ca-certificates \
          python3 \
