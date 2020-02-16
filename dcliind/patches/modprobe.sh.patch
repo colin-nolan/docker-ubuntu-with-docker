@@ -6,4 +6,4 @@
  # The original has been changed using patches that can be found in ../patches
  set -eu
  
- _tls_ensure_private() {
+ # "modprobe" without modprobe

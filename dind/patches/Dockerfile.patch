@@ -1,5 +1,5 @@
 --- Dockerfile	2020-02-16 14:48:47.000000000 +0000
-+++ ../build1/Dockerfile	2020-02-16 14:47:21.000000000 +0000
++++ ubunt-Dockerfile	2020-02-16 14:47:21.000000000 +0000
 @@ -1,32 +1,24 @@
 -FROM docker:19.03
 -
@@ -25,7 +25,7 @@
 -	fi
 +# DO NOT MODIFY - this file has been generated automatically!
 +# The original has been changed using patches that can be found in ../patches
-+ARG BASE_IMAGE=colinnolan/ubuntu-with-docker:latest
++ARG BASE_IMAGE=colinnolan/ubuntu-with-docker:dcliind
 +
 +FROM ${BASE_IMAGE}
 +
