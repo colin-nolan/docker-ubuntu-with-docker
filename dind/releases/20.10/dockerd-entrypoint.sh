@@ -140,6 +140,18 @@ if [ "$1" = 'dockerd' ]; then
 	# explicitly remove Docker's default PID file to ensure that it can start properly if it was stopped uncleanly (and thus didn't clean up the PID file)
 	find /run /var/run -iname 'docker*.pid' -delete || :
 
+	if dockerd --version | grep -qF ' 20.10.'; then
+		# XXX inject "docker-init" (tini) as pid1 to workaround https://github.com/docker-library/docker/issues/318 (zombie container-shim processes)
+		set -- docker-init -- "$@"
+	fi
+
+	if ! iptables -nL > /dev/null 2>&1; then
+		# if iptables fails to run, chances are high the necessary kernel modules aren't loaded (perhaps the host is using nftables with the translating "iptables" wrappers, for example)
+		# https://github.com/docker-library/docker/issues/350
+		# https://github.com/moby/moby/issues/26824
+		modprobe ip_tables || :
+	fi
+
 	uid="$(id -u)"
 	if [ "$uid" != '0' ]; then
 		# if we're not root, we must be trying to run rootless
@@ -172,9 +184,10 @@ if [ "$1" = 'dockerd' ]; then
 			--mtu="${DOCKERD_ROOTLESS_ROOTLESSKIT_MTU:-1500}" \
 			--disable-host-loopback \
 			--port-driver=builtin \
-			--copy-up=/etc --copy-up=/run \
+			--copy-up=/etc \
+			--copy-up=/run \
 			${DOCKERD_ROOTLESS_ROOTLESSKIT_FLAGS:-} \
-			"$@" --userland-proxy-path=rootlesskit-docker-proxy
+			"$@"
 	elif [ -x '/usr/local/bin/dind' ]; then
 		# if we have the (mostly defunct now) Docker-in-Docker wrapper script, use it
 		set -- '/usr/local/bin/dind' "$@"

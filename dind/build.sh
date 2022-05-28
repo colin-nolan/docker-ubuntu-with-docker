@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
-set -eu -o pipefail
 
-scriptDirectory="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+set -euf -o pipefail
 
-buildTag="${1:-colinnolan/ubuntu-with-docker:latest-dind}"
+docker_version="$1"
+build_tag="${2:-colinnolan/ubuntu-with-docker:${docker_version}-dind}"
 
-buildLocation=$("${scriptDirectory}/generate.sh")
+script_directory="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 
-docker build -t "${buildTag}" -f "${buildLocation}/Dockerfile" "${buildLocation}"
+pushd "${script_directory}/releases/${docker_version}" > /dev/null
+docker build -t "${build_tag}" .
+popd > /dev/null
 
-echo "${buildTag}"
+echo "${build_tag}"

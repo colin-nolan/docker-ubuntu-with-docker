@@ -1,7 +1,13 @@
---- Dockerfile	2020-02-16 14:48:47.000000000 +0000
-+++ ubuntu-Dockerfile	2020-02-16 14:47:21.000000000 +0000
-@@ -1,32 +1,24 @@
--FROM docker:19.03
+--- /tmp/docker/20.10/dind/Dockerfile	2022-05-28 19:58:08.000000000 +0100
++++ releases/20.10/Dockerfile	2022-05-28 20:04:19.000000000 +0100
+@@ -1,39 +1,25 @@
+-#
+-# NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
+-#
+-# PLEASE DO NOT EDIT IT DIRECTLY.
+-#
+-
+-FROM docker:20.10
 -
 -# https://github.com/docker/docker/blob/master/project/PACKAGERS.md#runtime-dependencies
 -RUN set -eux; \
@@ -9,6 +15,7 @@
 -		btrfs-progs \
 -		e2fsprogs \
 -		e2fsprogs-extra \
+-		ip6tables \
 -		iptables \
 -		openssl \
 -		shadow-uidmap \
@@ -25,7 +32,7 @@
 -	fi
 +# DO NOT MODIFY - this file has been generated automatically!
 +# The original has been changed using patches that can be found in ../patches
-+ARG BASE_IMAGE=colinnolan/ubuntu-with-docker:18.04-19.03
++ARG BASE_IMAGE=colinnolan/ubuntu-with-docker:20.10
 +
 +FROM ${BASE_IMAGE}
 +
@@ -36,16 +43,17 @@
 +        curl \
 +        lxc \
 +        iptables \
++        wget \
 +    && rm -rf /var/lib/apt/lists/*
- 
+
  # TODO aufs-tools
- 
+
  # set up subuid/subgid so that "--userns-remap=default" works out-of-the-box
- RUN set -x \
--	&& addgroup -S dockremap \
--	&& adduser -S -G dockremap dockremap \
-+	&& addgroup --system dockremap \
-+	&& useradd --system -g dockremap -- dockremap \
- 	&& echo 'dockremap:165536:65536' >> /etc/subuid \
- 	&& echo 'dockremap:165536:65536' >> /etc/subgid
- 
+ RUN set -eux; \
+-	addgroup -S dockremap; \
+-	adduser -S -G dockremap dockremap; \
++	addgroup --system dockremap; \
++	adduser --system --ingroup dockremap dockremap; \
+ 	echo 'dockremap:165536:65536' >> /etc/subuid; \
+ 	echo 'dockremap:165536:65536' >> /etc/subgid
+
